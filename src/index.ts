@@ -1,6 +1,5 @@
 import * as core from '@actions/core';
 import * as fs from 'fs';
-import * as path from 'path';
 import { validateSwaggerAgainstWhitelist } from './validator';
 
 async function run(): Promise<void> {

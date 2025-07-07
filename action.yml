@@ -1,0 +1,20 @@
+name: 'Swagger Whitelist Checker'
+description: 'Validates Swagger/OpenAPI endpoints against a whitelist CSV file'
+
+inputs:
+  swagger-path:
+    description: 'Path to the generated swagger.json file'
+    required: false
+    default: 'dist/swagger/swagger.json'
+  whitelist-path:
+    description: 'Path to the whitelist CSV file'
+    required: false
+    default: 'scripts/whitelist.csv'
+  build-command:
+    description: 'Command to build the swagger spec'
+    required: false
+    default: 'npm run build'
+
+runs:
+  using: 'node20'
+  main: 'swagger-whitelist-checker.js' 

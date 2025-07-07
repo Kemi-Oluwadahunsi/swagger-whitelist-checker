@@ -21,10 +21,9 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Validate Swagger against whitelist
-        uses: Kemi-Oluwadahunsi/-swagger-whitelist-checker@v1.0.0
+        uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
           swagger-file: 'swagger.json'
-          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
           fail-on-violations: 'true'
 ```
 
@@ -46,10 +45,10 @@ jobs:
       
       - name: Validate Swagger endpoints
         id: validate
-        uses: Kemi-Oluwadahunsi/-swagger-whitelist-checker@v1.0.0
+        uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
           swagger-file: 'api/swagger.json'
-          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
           fail-on-violations: 'false'
       
       - name: Report violations
@@ -59,13 +58,35 @@ jobs:
           echo '${{ steps.validate.outputs.violations }}'
 ```
 
+### Legacy Parameter Support
+
+If you're using the legacy parameter names, the action will still work but will show deprecation warnings:
+
+```yaml
+# ❌ Legacy usage (deprecated)
+- name: Run Centralized Whitelist Check
+  uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
+  with:
+    swagger-path: 'dist/swagger/swagger.json'  # Use swagger-file instead
+    build-command: 'npm run build'             # Not used in current version
+
+# ✅ Correct usage
+- name: Run Centralized Whitelist Check
+  uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
+  with:
+    swagger-file: 'dist/swagger/swagger.json'
+    fail-on-violations: 'true'
+```
+
 ## 📋 Inputs
 
 | Input | Description | Required | Default |
 |-------|-------------|----------|---------|
-| `swagger-file` | Path to the Swagger/OpenAPI JSON file to validate | Yes | `swagger.json` |
-| `whitelist-url` | URL to the centralized whitelist CSV file | Yes | Repository's default whitelist |
+| `swagger-file` | Path to the Swagger/OpenAPI JSON file to validate | No | `swagger.json` |
+| `swagger-path` | **Legacy parameter** - Use `swagger-file` instead | No | - |
+| `whitelist-url` | URL to the centralized whitelist CSV file | No | Repository's default whitelist |
 | `fail-on-violations` | Whether to fail the action if violations are found | No | `true` |
+| `build-command` | **Legacy parameter** - Not used in current version | No | - |
 
 ## 📤 Outputs
 
@@ -123,7 +144,7 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Validate API endpoints
-        uses: Kemi-Oluwadahunsi/-swagger-whitelist-checker@v1.0.0
+        uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
           swagger-file: 'docs/api/swagger.json'
           fail-on-violations: 'true'

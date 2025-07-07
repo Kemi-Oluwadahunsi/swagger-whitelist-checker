@@ -5,16 +5,22 @@ author: 'Oluwakemi Oluwadahunsi'
 inputs:
   swagger-file:
     description: 'Path to the Swagger/OpenAPI JSON file to validate'
-    required: true
+    required: false
     default: 'swagger.json'
+  swagger-path:
+    description: 'Legacy parameter name for swagger-file'
+    required: false
   whitelist-url:
     description: 'URL to the centralized whitelist CSV file'
-    required: true
-    default: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+    required: false
+    default: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
   fail-on-violations:
     description: 'Whether to fail the action if violations are found'
     required: false
     default: 'true'
+  build-command:
+    description: 'Legacy parameter - not used in current version'
+    required: false
 
 outputs:
   violations:

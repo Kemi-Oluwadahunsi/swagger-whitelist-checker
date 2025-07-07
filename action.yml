@@ -1,20 +1,29 @@
-name: 'Swagger Whitelist Checker'
-description: 'Validates Swagger/OpenAPI endpoints against a whitelist CSV file'
+name: 'Swagger Whitelist Validator'
+description: 'Validates Swagger/OpenAPI endpoints against a centralized whitelist'
+author: 'Oluwakemi Oluwadahunsi'
 
 inputs:
-  swagger-path:
-    description: 'Path to the generated swagger.json file'
+  swagger-file:
+    description: 'Path to the Swagger/OpenAPI JSON file to validate'
+    required: true
+    default: 'swagger.json'
+  whitelist-url:
+    description: 'URL to the centralized whitelist CSV file'
+    required: true
+    default: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+  fail-on-violations:
+    description: 'Whether to fail the action if violations are found'
     required: false
-    default: 'dist/swagger/swagger.json'
-  whitelist-path:
-    description: 'Path to the whitelist CSV file'
-    required: false
-    default: 'scripts/whitelist.csv'
-  build-command:
-    description: 'Command to build the swagger spec'
-    required: false
-    default: 'npm run build'
+    default: 'true'
+
+outputs:
+  violations:
+    description: 'List of unauthorized endpoints found'
+    value: ${{ steps.validate.outputs.violations }}
+  is-valid:
+    description: 'Whether the Swagger file passed validation'
+    value: ${{ steps.validate.outputs.is-valid }}
 
 runs:
   using: 'node20'
-  main: 'swagger-whitelist-checker.js' 
+  main: 'dist/index.js' 

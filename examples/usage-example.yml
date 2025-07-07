@@ -1,0 +1,30 @@
+name: API Security Validation
+on: 
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate Swagger endpoints
+        id: validate
+        uses: Kemi-Oluwadahunsi/-swagger-whitelist-checker@v1.0.0
+        with:
+          swagger-file: 'swagger.json'  # Adjust path to your Swagger file
+          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+          fail-on-violations: 'true'
+      
+      - name: Report validation results
+        if: always()
+        run: |
+          echo "Validation completed!"
+          echo "Is valid: ${{ steps.validate.outputs.is-valid }}"
+          if [ "${{ steps.validate.outputs.is-valid }}" = "false" ]; then
+            echo "Violations found:"
+            echo '${{ steps.validate.outputs.violations }}'
+          fi 

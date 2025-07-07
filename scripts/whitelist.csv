@@ -1,0 +1,9 @@
+api,tags,method,path
+CreateProduct,Product,POST,/products
+GetProduct,Product,GET,/products/{productId}
+CreateUser,User,POST,/users
+GetUsers,User,GET,/users
+GetUser,User,GET,/users/{userId}
+GetUserByName,User,GET,/users/byName
+UpdateUser,User,PUT,/users/{userId}
+DeleteUser,User,DELETE,/users/{userId}

@@ -1,0 +1,70 @@
+name: Test Action
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-validation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Create test Swagger file
+        run: |
+          mkdir -p test
+          cat > test/swagger.json << 'EOF'
+          {
+            "openapi": "3.0.0",
+            "info": {
+              "title": "Test API",
+              "version": "1.0.0"
+            },
+            "paths": {
+              "/products": {
+                "post": {
+                  "summary": "CreateProduct",
+                  "tags": ["Product"]
+                },
+                "get": {
+                  "summary": "GetProducts",
+                  "tags": ["Product"]
+                }
+              },
+              "/users": {
+                "post": {
+                  "summary": "CreateUser",
+                  "tags": ["User"]
+                },
+                "get": {
+                  "summary": "GetUsers",
+                  "tags": ["User"]
+                }
+              },
+              "/unauthorized": {
+                "get": {
+                  "summary": "UnauthorizedEndpoint",
+                  "tags": ["Unauthorized"]
+                }
+              }
+            }
+          }
+          EOF
+      
+      - name: Test validation with violations
+        id: test-violations
+        uses: ./
+        with:
+          swagger-file: 'test/swagger.json'
+          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+          fail-on-violations: 'false'
+      
+      - name: Test validation with clean swagger
+        id: test-clean
+        uses: ./
+        with:
+          swagger-file: 'test/clean-swagger.json'
+          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/-swagger-whitelist-checker/main/scripts/whitelist.csv'
+          fail-on-violations: 'true'
+        continue-on-error: true 

@@ -19,20 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Validate Swagger against whitelist
         uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
-          swagger-file: 'swagger.json'
-          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
-          fail-on-violations: 'true'
+          swagger-file: "swagger.json"
+          whitelist-url: "https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv"
+          fail-on-violations: "true"
 ```
 
 ### Advanced Usage
 
 ```yaml
 name: API Validation
-on: 
+on:
   push:
     branches: [main, develop]
   pull_request:
@@ -43,15 +43,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Validate Swagger endpoints
         id: validate
         uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
-          swagger-file: 'api/swagger.json'
-          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
-          fail-on-violations: 'false'
-      
+          swagger-file: "api/swagger.json"
+          whitelist-url: "https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv"
+          fail-on-violations: "false"
+
       - name: Report violations
         if: steps.validate.outputs.is-valid == 'false'
         run: |
@@ -68,33 +68,33 @@ If you're using the legacy parameter names, the action will still work but will 
 - name: Run Centralized Whitelist Check
   uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
   with:
-    swagger-path: 'dist/swagger/swagger.json'  # Use swagger-file instead
-    build-command: 'npm run build'             # Not used in current version
+    swagger-path: "dist/swagger/swagger.json" # Use swagger-file instead
+    build-command: "npm run build" # Not used in current version
 
 # ✅ Correct usage
 - name: Run Centralized Whitelist Check
-  uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
+  uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.2.0
   with:
-    swagger-file: 'dist/swagger/swagger.json'
-    fail-on-violations: 'true'
+    swagger-file: "dist/swagger/swagger.json"
+    fail-on-violations: "true"
 ```
 
 ## 📋 Inputs
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `swagger-file` | Path to the Swagger/OpenAPI JSON file to validate | No | `swagger.json` |
-| `swagger-path` | **Legacy parameter** - Use `swagger-file` instead | No | - |
-| `whitelist-url` | URL to the centralized whitelist CSV file | **Yes** | - |
-| `fail-on-violations` | Whether to fail the action if violations are found | No | `true` |
-| `build-command` | **Legacy parameter** - Not used in current version | No | - |
+| Input                | Description                                        | Required | Default        |
+| -------------------- | -------------------------------------------------- | -------- | -------------- |
+| `swagger-file`       | Path to the Swagger/OpenAPI JSON file to validate  | No       | `swagger.json` |
+| `swagger-path`       | **Legacy parameter** - Use `swagger-file` instead  | No       | -              |
+| `whitelist-url`      | URL to the centralized whitelist CSV file          | **Yes**  | -              |
+| `fail-on-violations` | Whether to fail the action if violations are found | No       | `true`         |
+| `build-command`      | **Legacy parameter** - Not used in current version | No       | -              |
 
 ## 📤 Outputs
 
-| Output | Description |
-|--------|-------------|
+| Output       | Description                                |
+| ------------ | ------------------------------------------ |
 | `violations` | JSON array of unauthorized endpoints found |
-| `is-valid` | Boolean indicating if validation passed |
+| `is-valid`   | Boolean indicating if validation passed    |
 
 ## 📊 Whitelist Format
 
@@ -113,18 +113,21 @@ GetUsers,User,GET,/users
 Different project types have different whitelist URLs:
 
 ### Java Projects
+
 ```yaml
-whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/java-whitelist.csv'
+whitelist-url: "https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/java-whitelist.csv"
 ```
 
 ### Authentication Services
+
 ```yaml
-whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelistAuth.csv'
+whitelist-url: "https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelistAuth.csv"
 ```
 
 ### General API Projects
+
 ```yaml
-whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
+whitelist-url: "https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv"
 ```
 
 See [scripts/project-whitelists.md](scripts/project-whitelists.md) for complete documentation.
@@ -164,12 +167,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Validate API endpoints
         uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
-          swagger-file: 'docs/api/swagger.json'
-          fail-on-violations: 'true'
+          swagger-file: "docs/api/swagger.json"
+          fail-on-violations: "true"
 ```
 
 ## 🛡️ Security Benefits
@@ -189,4 +192,4 @@ jobs:
 
 ## 📄 License
 
-This project is licensed under the MIT License. 
+This project is licensed under the MIT License.

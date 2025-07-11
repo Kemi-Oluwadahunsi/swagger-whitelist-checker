@@ -12,8 +12,7 @@ inputs:
     required: false
   whitelist-url:
     description: 'URL to the centralized whitelist CSV file'
-    required: false
-    default: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
+    required: true
   fail-on-violations:
     description: 'Whether to fail the action if violations are found'
     required: false

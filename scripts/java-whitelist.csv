@@ -1,0 +1,4 @@
+api,tags,method,path
+ListUsers,user-controller,GET,/api/users
+CreateUser,user-controller,POST,/api/users
+GetUserById,user-controller,GET,/api/users/{id} 

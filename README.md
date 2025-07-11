@@ -24,6 +24,7 @@ jobs:
         uses: Kemi-Oluwadahunsi/swagger-whitelist-checker@v1.1.0
         with:
           swagger-file: 'swagger.json'
+          whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
           fail-on-violations: 'true'
 ```
 
@@ -84,7 +85,7 @@ If you're using the legacy parameter names, the action will still work but will 
 |-------|-------------|----------|---------|
 | `swagger-file` | Path to the Swagger/OpenAPI JSON file to validate | No | `swagger.json` |
 | `swagger-path` | **Legacy parameter** - Use `swagger-file` instead | No | - |
-| `whitelist-url` | URL to the centralized whitelist CSV file | No | Repository's default whitelist |
+| `whitelist-url` | URL to the centralized whitelist CSV file | **Yes** | - |
 | `fail-on-violations` | Whether to fail the action if violations are found | No | `true` |
 | `build-command` | **Legacy parameter** - Not used in current version | No | - |
 
@@ -106,6 +107,27 @@ GetProduct,Product,GET,/products/{productId}
 CreateUser,User,POST,/users
 GetUsers,User,GET,/users
 ```
+
+## 🎯 Project-Specific Whitelists
+
+Different project types have different whitelist URLs:
+
+### Java Projects
+```yaml
+whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/java-whitelist.csv'
+```
+
+### Authentication Services
+```yaml
+whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelistAuth.csv'
+```
+
+### General API Projects
+```yaml
+whitelist-url: 'https://raw.githubusercontent.com/Kemi-Oluwadahunsi/swagger-whitelist-checker/main/scripts/whitelist.csv'
+```
+
+See [scripts/project-whitelists.md](scripts/project-whitelists.md) for complete documentation.
 
 ## 🔧 Development
 
